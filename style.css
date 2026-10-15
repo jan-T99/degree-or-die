@@ -1,0 +1,136 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  width: 100%; height: 100%;
+  overflow: hidden;
+  background: #04031a;
+  color: #e8f4ff;
+  font-family: 'Quicksand', system-ui, sans-serif;
+  user-select: none;
+}
+
+canvas#game { position: fixed; inset: 0; display: block; cursor: crosshair; }
+
+.hidden { display: none !important; }
+
+/* ---------- HUD ---------- */
+#hud {
+  position: fixed; top: 0; left: 0; right: 0;
+  display: flex; justify-content: space-between; align-items: flex-start;
+  padding: 14px 20px; pointer-events: none;
+}
+.hud-block {
+  background: rgba(10, 12, 40, 0.55);
+  border: 1px solid rgba(120, 220, 255, 0.25);
+  border-radius: 14px; padding: 8px 16px;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 0 20px rgba(80, 200, 255, 0.12);
+}
+.hud-center { text-align: center; }
+.hud-right { text-align: right; }
+.hud-label { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #8fd8ff; margin-bottom: 4px; }
+.hud-big { font-size: 24px; font-weight: 700; color: #fff; text-shadow: 0 0 10px #6ff; }
+.hud-big small { font-size: 13px; color: #9cc; }
+.hud-sub { font-size: 12px; color: #b9c8ff; }
+.bar {
+  position: relative; width: 220px; height: 16px; border-radius: 8px;
+  background: rgba(255,255,255,0.08); overflow: hidden;
+  border: 1px solid rgba(120,220,255,0.35);
+}
+.bar-fill {
+  height: 100%; width: 100%;
+  background: linear-gradient(90deg, #2af5ff, #9bfff0);
+  box-shadow: 0 0 12px #2af5ff;
+  transition: width 0.15s, background 0.3s;
+}
+.bar span { position: absolute; inset: 0; text-align: center; font-size: 11px; font-weight: 700; line-height: 15px; color: #021; }
+
+#legend {
+  position: fixed; bottom: 12px; left: 50%; transform: translateX(-50%);
+  font-size: 12px; color: rgba(200, 230, 255, 0.6); letter-spacing: 1px; pointer-events: none;
+}
+
+/* ---------- Toasts ---------- */
+#toasts {
+  position: fixed; top: 92px; left: 50%; transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 8px; pointer-events: none;
+}
+.toast {
+  padding: 10px 22px; border-radius: 999px;
+  background: rgba(15, 10, 45, 0.82);
+  border: 1px solid var(--c, #6ff);
+  box-shadow: 0 0 24px var(--c, #6ff);
+  font-weight: 700; font-size: 16px; letter-spacing: 1px; white-space: nowrap;
+  animation: toastIn 0.35s cubic-bezier(.2,1.6,.4,1), toastOut 0.5s ease-in forwards;
+  animation-delay: 0s, var(--d, 2.6s);
+}
+.toast small { display: block; text-align: center; font-weight: 500; font-size: 12px; opacity: 0.8; }
+@keyframes toastIn { from { transform: scale(0.4) translateY(-20px); opacity: 0; } }
+@keyframes toastOut { to { transform: translateY(-20px); opacity: 0; } }
+
+/* ---------- Screens ---------- */
+.screen {
+  position: fixed; inset: 0; display: flex; align-items: center; justify-content: center;
+  background: radial-gradient(ellipse at center, rgba(20,10,60,0.45), rgba(2,2,15,0.85));
+  animation: fadeIn 0.6s ease;
+}
+@keyframes fadeIn { from { opacity: 0; } }
+.panel {
+  text-align: center; padding: 40px 56px; max-width: 760px; width: calc(100% - 32px);
+  border-radius: 28px;
+  background: rgba(12, 10, 40, 0.6);
+  border: 1px solid rgba(120, 220, 255, 0.3);
+  box-shadow: 0 0 60px rgba(80, 180, 255, 0.25), inset 0 0 40px rgba(120, 80, 255, 0.15);
+  backdrop-filter: blur(8px);
+}
+.panel.danger { border-color: rgba(255, 80, 100, 0.5); box-shadow: 0 0 60px rgba(255, 60, 90, 0.3); }
+.panel.gold { border-color: rgba(255, 210, 100, 0.6); box-shadow: 0 0 80px rgba(255, 200, 80, 0.35); }
+
+.title {
+  font-family: 'Cinzel Decorative', serif; font-weight: 900;
+  font-size: clamp(36px, 7vw, 76px); line-height: 1.05;
+  background: linear-gradient(180deg, #ffffff, #7ff3ff 45%, #b98bff);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  filter: drop-shadow(0 0 18px rgba(100, 230, 255, 0.6));
+  animation: float 4s ease-in-out infinite;
+}
+.title span { font-size: 0.5em; vertical-align: middle; }
+.title.red { background-image: linear-gradient(180deg, #fff, #ff8a9a 50%, #ff2a4a); filter: drop-shadow(0 0 18px rgba(255, 60, 90, 0.7)); font-size: clamp(30px, 5.5vw, 60px); }
+.title.gold { background-image: linear-gradient(180deg, #fff, #ffe08a 50%, #ffa630); filter: drop-shadow(0 0 22px rgba(255, 200, 80, 0.8)); font-size: clamp(30px, 5.5vw, 58px); }
+.title.gold span { font-size: 0.7em; }
+@keyframes float { 50% { transform: translateY(-6px); } }
+
+.subtitle { font-size: 20px; letter-spacing: 6px; text-transform: uppercase; color: #9be9ff; margin-top: 10px; }
+.tagline { font-size: 17px; color: #d6dcff; margin: 16px 0 24px; }
+.premise { font-size: 13px; color: #8a90c0; margin-top: 22px; font-style: italic; }
+.stats { font-size: 15px; color: #cfe; margin-bottom: 20px; }
+
+.btn {
+  font-family: 'Quicksand', sans-serif; font-weight: 700; font-size: 20px; letter-spacing: 3px;
+  padding: 16px 44px; border-radius: 999px; cursor: pointer;
+  color: #031; border: none;
+  background: linear-gradient(135deg, #5ff6ff, #b6fff5);
+  box-shadow: 0 0 30px rgba(90, 240, 255, 0.7), 0 0 0 4px rgba(90, 240, 255, 0.15);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.btn:hover { transform: scale(1.07); box-shadow: 0 0 50px rgba(90, 240, 255, 0.95), 0 0 0 6px rgba(90, 240, 255, 0.2); }
+.btn.red { background: linear-gradient(135deg, #ff5a75, #ffb0bd); color: #300; box-shadow: 0 0 30px rgba(255, 70, 100, 0.7); }
+.btn.gold { background: linear-gradient(135deg, #ffd25a, #fff0b8); color: #320; box-shadow: 0 0 30px rgba(255, 200, 80, 0.8); }
+
+.controls { display: flex; justify-content: center; gap: 22px; flex-wrap: wrap; margin-top: 26px; font-size: 14px; color: #b9c8ff; }
+kbd {
+  display: inline-block; min-width: 24px; padding: 2px 7px; margin: 0 2px;
+  border-radius: 6px; border: 1px solid rgba(150, 220, 255, 0.5);
+  background: rgba(255,255,255,0.06); font-family: inherit; font-size: 12px; color: #e6f8ff;
+}
+
+#courseList { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 6px 20px; margin: 0 auto 18px; max-width: 520px; text-align: left; }
+#courseList li { font-size: 14px; color: #fff3cf; }
+#courseList li b { color: #ffd76a; }
+
+@media (max-width: 700px) {
+  .hud-block { padding: 6px 10px; }
+  .bar { width: 130px; }
+  .panel { padding: 28px 18px; }
+  #legend { display: none; }
+}

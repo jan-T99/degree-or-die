@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Degree or Die — The HUJI Survival Exam</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Quicksand:wght@500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <canvas id="game"></canvas>
+
+  <!-- HUD -->
+  <div id="hud" class="hidden">
+    <div class="hud-block hud-left">
+      <div class="hud-label">Mental Stability</div>
+      <div class="bar"><div id="hpFill" class="bar-fill"></div><span id="hpText">100</span></div>
+    </div>
+    <div class="hud-block hud-center">
+      <div class="hud-big"><span id="credits">0</span> <small>/ <span id="totalCredits">45</span> credits</small></div>
+      <div class="hud-sub"><b id="year"></b> · Lecturers remaining: <span id="remaining">9</span></div>
+    </div>
+    <div class="hud-block hud-right">
+      <div class="hud-label">Semester time</div>
+      <div class="hud-big" id="timer">0:00</div>
+    </div>
+  </div>
+  <div id="legend" class="hidden">WASD / Arrows — move &nbsp;·&nbsp; Mouse — aim &nbsp;·&nbsp; Click / Space — shoot</div>
+  <div id="toasts"></div>
+
+  <!-- Start screen -->
+  <div id="startScreen" class="screen">
+    <div class="panel">
+      <h1 class="title">DEGREE <span>or</span> DIE</h1>
+      <div class="subtitle">The HUJI Survival Exam</div>
+      <p class="tagline">Nine lecturers. Three years. One sandwich shop. One questionable degree.</p>
+      <button id="startBtn" class="btn">START SEMESTER</button>
+      <div class="controls">
+        <div><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> move</div>
+        <div><kbd>Mouse</kbd> aim</div>
+        <div><kbd>Click</kbd> / <kbd>Space</kbd> shoot</div>
+        <div>🥪 Sandwich Bar opens sometimes — run there to heal!</div>
+      </div>
+      <p class="premise">You enrolled at HUJI. Your degree fights back.</p>
+    </div>
+  </div>
+
+  <!-- Death screen -->
+  <div id="deathScreen" class="screen hidden">
+    <div class="panel danger">
+      <h1 class="title red">ACADEMIC PROBATION</h1>
+      <p class="tagline" id="deathText">Your mental stability has collapsed.</p>
+      <p class="stats" id="deathStats"></p>
+      <button id="restartBtn" class="btn red">RETAKE THE SEMESTER</button>
+    </div>
+  </div>
+
+  <!-- Victory screen -->
+  <div id="winScreen" class="screen hidden">
+    <div class="panel gold">
+      <h1 class="title gold">CONGRATULATIONS!<br /><span>YOU GRADUATED</span></h1>
+      <p class="tagline">Only nine lecturers, several apples and one sandwich were harmed.</p>
+      <ul id="courseList"></ul>
+      <p class="stats" id="winStats"></p>
+      <button id="againBtn" class="btn gold">PLAY AGAIN</button>
+    </div>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>
